@@ -15,11 +15,6 @@ public class UserTest {
     private final UserChecks check = new UserChecks();
     private String accessToken;
 
-//    @Before
-//    public void setUp() {
-//        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
-//    }
-
     // 1. Создать уникального пользователя
     @Test
     public void testSuccessfulUserRegistration() {
