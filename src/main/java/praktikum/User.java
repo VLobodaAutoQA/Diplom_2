@@ -15,6 +15,10 @@ public class User {
         return new User("vladtest" + System.currentTimeMillis() + "@yandex.rus", "11111111", "VLoboda" );
     }
 
+    public static  User editAccountUser() {
+        return new User("vladtest" + System.currentTimeMillis() + "@yandex.rus", "11111111" + System.currentTimeMillis(), "VLoboda" + System.currentTimeMillis());
+    }
+
 
     public String getEmail() {
         return email;
