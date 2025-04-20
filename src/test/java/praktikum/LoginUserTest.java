@@ -1,5 +1,6 @@
 package praktikum;
 
+import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
@@ -51,6 +52,7 @@ public class LoginUserTest {
     }
 
     @After
+    @Step("Очистка после теста: удаление пользователя")
     public void deleteUser() {
         if (accessToken != null) {
             client.deleteUser(accessToken);
