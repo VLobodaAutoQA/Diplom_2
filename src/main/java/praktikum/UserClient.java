@@ -2,11 +2,10 @@ package praktikum;
 
 import io.restassured.response.ValidatableResponse;
 
-import java.util.Map;
-
 public class UserClient extends Client {
-    public static final String USER = "/user";
-    User editName = new User("vladtest" + + System.currentTimeMillis() + "@yandex.rus", "11111111", "VLoboda" + System.currentTimeMillis());
+    public static final String USER = "/auth/user";
+    public static final String LOGIN = "/auth/login";
+    public static final String REGISTER = "/auth/register";
 
     private String accessToken;
 
@@ -18,7 +17,7 @@ public class UserClient extends Client {
         return Client.spec()
                 .body(creds)
                 .when()
-                .post("/login")
+                .post(LOGIN)
                 .then().log().all();
     }
 
@@ -26,7 +25,7 @@ public class UserClient extends Client {
         return Client.spec()
                 .body(user)
                 .when()
-                .post("/register")
+                .post(REGISTER)
                 .then().log().all();
     }
 
@@ -54,7 +53,4 @@ public class UserClient extends Client {
                 .patch(USER)
                 .then().log().all();
     }
-
-//    public ValidatableResponse editUser(User edit) {
-//    }
 }

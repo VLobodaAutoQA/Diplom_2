@@ -6,7 +6,7 @@ import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
 
 public class Client {
-    public static final String BASE_PATH = "/api/auth";
+    public static final String BASE_PATH = "/api";
 
     public static RequestSpecification spec() {
         return given().log().all()
