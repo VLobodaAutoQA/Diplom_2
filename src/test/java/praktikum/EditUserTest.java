@@ -1,5 +1,7 @@
 package praktikum;
 
+import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
@@ -13,6 +15,7 @@ public class EditUserTest {
     private String accessToken;
 
     @Before
+    @Step("Подготовка теста: создание и авторизация пользователя")
     public void setUp() {
         // Создание пользователя
         var user = User.accountForCreateUser();
@@ -27,19 +30,19 @@ public class EditUserTest {
         client.setAccessToken(accessToken);
     }
 
-
     // 1. Изменение данных пользователя с авторизацией
     @Test
+    @DisplayName("Успешное изменение данных пользователя с авторизацией")
     public void testSuccessfulUserEdit() {
         var editedUser = User.editAccountUser();
         ValidatableResponse editResponse = client.editUser(editedUser);
         int statusCodeEditUser = editResponse.extract().statusCode();
         assertEquals(200, statusCodeEditUser);
-
     }
 
     // 2. Изменение данных пользователя без авторизации
     @Test
+    @DisplayName("Попытка изменения данных пользователя без авторизации")
     public void testEditWithoutAuthorization() {
         var editedUser = User.editAccountUser();
         ValidatableResponse editResponse = client.editUserWithoutToken(editedUser);
@@ -54,6 +57,7 @@ public class EditUserTest {
     }
 
     @After
+    @Step("Очистка после теста: удаление пользователя")
     public void deleteUser() {
         if (accessToken != null) {
             client.deleteUser(accessToken);

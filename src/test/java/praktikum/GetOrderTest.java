@@ -1,16 +1,11 @@
 package praktikum;
 
+import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
-
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.*;
 
 public class GetOrderTest {
@@ -18,10 +13,9 @@ public class GetOrderTest {
     private final UserChecks check = new UserChecks();
     private final OrderClient orderClient = new OrderClient();
     private String accessToken;
-    private IngredientsClient ingredientsClient;
-
 
     @Before
+    @Step("Подготовка теста: создание и авторизация пользователя")
     public void setUp() {
         // Создание пользователя
         var user = User.accountForCreateUser();
@@ -37,9 +31,9 @@ public class GetOrderTest {
         orderClient.setAccessToken(accessToken);
     }
 
-
     // 1. Получение заказов авторизованным пользователем
     @Test
+    @DisplayName("Получение заказов авторизованным пользователем")
     public void testGetOrders() {
 
         // Отправляем запрос на создание заказа
@@ -52,6 +46,7 @@ public class GetOrderTest {
 
     // 2. Получение заказов неавторизованным пользователем
     @Test
+    @DisplayName("Получение заказов неавторизованным пользователем")
     public void testGetOrdersWithOutToken() {
 
         // Отправляем запрос на создание заказа
@@ -63,9 +58,7 @@ public class GetOrderTest {
 
         String errorMessage = responseGetOrders.extract().path("message");
         assertEquals("You should be authorised", errorMessage);
-
     }
-
 
     @After
     public void deleteUser() {

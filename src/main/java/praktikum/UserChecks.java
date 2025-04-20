@@ -27,5 +27,4 @@ public class UserChecks {
                 .path("success");
         assertTrue("Пользователь не был создан", created);
     }
-
 }

@@ -1,13 +1,12 @@
 package praktikum;
 
-import io.restassured.RestAssured;
+import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
-import org.junit.Before;
+
 import org.junit.Test;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 
 public class UserTest {
@@ -17,6 +16,7 @@ public class UserTest {
 
     // 1. Создать уникального пользователя
     @Test
+    @DisplayName("Успешная регистрация уникального пользователя")
     public void testSuccessfulUserRegistration() {
 
         // Создание пользователя
@@ -32,6 +32,7 @@ public class UserTest {
 
 //     2. Создать пользователя, который уже зарегистрирован
     @Test
+    @DisplayName("Попытка регистрации уже существующего пользователя")
     public void testDuplicateUserRegistration() {
         // Создание пользователя
         var user = User.accountForCreateUser();
@@ -52,6 +53,8 @@ public class UserTest {
 
     // 3. Создать пользователя и не заполнить одно из обязательных полей.
     @Test
+    @DisplayName("Попытка регистрации без обязательных полей")
+    @Step("Проверка регистрации без обязательных полей")
     public void testRegistrationWithoutRequiredField() {
         // Попытка создать пользователя без email
         User noEmail = new User(null, User.accountForCreateUser().getPassword(), User.accountForCreateUser().getName());
@@ -70,10 +73,10 @@ public class UserTest {
         ValidatableResponse responseNoName = client.createUser(noName);
         int statusCodeNoName = responseNoPassword.extract().statusCode();
         assertEquals(403, statusCodeNoName);
-
     }
 
     @After
+    @Step("Очистка после теста: удаление пользователя")
     public void deleteUser() {
         if (accessToken != null) {
             client.deleteUser(accessToken);

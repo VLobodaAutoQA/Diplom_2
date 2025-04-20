@@ -1,10 +1,9 @@
 package praktikum;
 
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Test;
-
-import java.net.HttpURLConnection;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,6 +14,7 @@ public class LoginUserTest {
 
     // 1. Логин под существующим пользователем
     @Test
+    @DisplayName("Успешный логин существующего пользователя")
     public void testSuccessfulUserLogin() {
         // Создание пользователя
         var user = User.accountForCreateUser();
@@ -33,6 +33,7 @@ public class LoginUserTest {
 
     // 2. Логин с неверным логином и паролем
     @Test
+    @DisplayName("Логин с неверными учетными данными")
     public void testLoginWithNonExistingUser() {
         // Создаем учетные данные для несуществующего пользователя
         Credentials invalidCreds = new Credentials("InvalidEmpire" + System.currentTimeMillis(), "11111111");

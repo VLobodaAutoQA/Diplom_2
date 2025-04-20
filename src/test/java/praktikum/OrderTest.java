@@ -1,5 +1,6 @@
 package praktikum;
 
+import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
@@ -10,7 +11,6 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.*;
 
 public class OrderTest {
@@ -20,8 +20,8 @@ public class OrderTest {
     private String accessToken;
     private IngredientsClient ingredientsClient;
 
-
     @Before
+    @Step("Подготовка теста: создание пользователя и получение ингредиентов")
     public void setUp() {
         // Создание пользователя
         var user = User.accountForCreateUser();
@@ -39,9 +39,9 @@ public class OrderTest {
         ingredientsClient = new IngredientsClient();
     }
 
-
     // 1. Создание заказа с авторизацией
     @Test
+    @DisplayName("Создание заказа с авторизацией и с ингредиентами")
     public void testCreateOrderWithTokenAndIngredients() {
         // Получаем список валидных ингредиентов
         Response ingredientsResponse = ingredientsClient.getIngredients();
@@ -67,11 +67,11 @@ public class OrderTest {
         List<String> responseIngredients = createOrderResponse.extract().path("order.ingredients");
         assertNotNull("Поле 'order.ingredients' должно присутствовать в ответе", responseIngredients);
         assertFalse("Список ингредиентов в заказе не должен быть пустым", responseIngredients.isEmpty());
-
     }
 
     // 2. Создание заказа без авторизации
     @Test
+    @DisplayName("Создание заказа без авторизации")
     public void testCreateOrderWitoutToken() {
         // Получаем список валидных ингредиентов
         Response ingredientsResponse = ingredientsClient.getIngredients();
@@ -100,6 +100,7 @@ public class OrderTest {
 
     // 3. Создание заказа без ингредиентов
     @Test
+    @DisplayName("Создание заказа без ингредиентов")
     public void testCreateOrderWithOutIngredients() {
         // Создание заказа с пустым списком ингредиентов
         Order emptyOrder = new Order(List.of());
@@ -126,8 +127,8 @@ public class OrderTest {
         assertEquals(500, statusCodeInvalidHash);
     }
 
-
     @After
+    @Step("Очистка после теста: удаление пользователя")
     public void deleteUser() {
         if (accessToken != null) {
             client.deleteUser(accessToken);
