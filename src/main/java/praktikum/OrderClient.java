@@ -12,7 +12,7 @@ public class OrderClient extends Client {
     }
 
     public ValidatableResponse createOrder (Order order) {
-        return Client.spec()
+        return spec()
                 .header("Authorization", this.accessToken)
                 .body(order)
                 .when()
@@ -21,10 +21,24 @@ public class OrderClient extends Client {
     }
 
     public ValidatableResponse createOrderWithoutToken (Order order) {
-        return Client.spec()
+        return spec()
                 .body(order)
                 .when()
                 .post(ORDER)
+                .then().log().all();
+    }
+
+    public ValidatableResponse getOrders() {
+        return spec()
+                .header("Authorization", this.accessToken)
+                .when()
+                .get(ORDER)
+                .then().log().all();
+    }
+
+    public ValidatableResponse getOrdersWithOutToken() {
+        return spec()
+                .get(ORDER)
                 .then().log().all();
     }
 }

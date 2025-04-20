@@ -10,7 +10,7 @@ public class IngredientsClient extends Client {
     public static final String INGREDIENTS = "/ingredients";
 
     public Response getIngredients() {
-        return Client.spec()
+        return spec()
                 .accept(ContentType.JSON)
                 .get(INGREDIENTS);
     }
